@@ -115,13 +115,13 @@ When creating your bot in the [Discord Developer Portal](https://discord.com/dev
 ### 🔐 CRCON API Permissions
 Create the CRCON API token with at least these permissions:  
 
-- `get_players` → view all connected players (name, Steam ID, VIP status, sessions)  
-- `get_detailed_players` → view extended player details  
-- `message_player` → send messages to players  
-- `set_map` → change the current map  
-- `kick` → kick players  
-- `punish` → punish players  
-- `switch_player_now` → immediately switch players  
+- `get_players` → api | rcon user | Can view get_players endpoint (name, steam ID, VIP status and sessions) for all connected players
+- `get_detailed_players` → api | rcon user | Can view get_detailed_players endpoint
+- `message_player` → api | rcon user | Can message players
+- `set_map` → api | rcon user | Can change the current map
+- `kick` → api | rcon user | Can kick players
+- `punish` → api | rcon user | Can punish players
+- `switch_player_now` → api | rcon user | Can immediately switch players 
 
 ---
 
