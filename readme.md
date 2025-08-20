@@ -265,7 +265,7 @@ sudo yum install -y python3
 Use the **py launcher** to pick a version and create a venv:
 ```powershell
 py -3.12 -m venv venv
-.env\Scripts\Activate.ps1
+.env\Scripts\Activate.ps1
 pip install -U pip wheel
 pip install -r requirements.txt
 ```
