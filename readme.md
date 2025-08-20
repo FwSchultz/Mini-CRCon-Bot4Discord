@@ -5,32 +5,32 @@
   
 <!-- Badges -->
 <p>
-  <a href="https://github.com/FwSchultz/Discord-VIP-Exchanger/graphs/contributors">
-    <img src="https://img.shields.io/github/contributors/FwSchultz/Discord-VIP-Exchanger" alt="contributors" />
+  <a href="https://github.com/FwSchultz/Mini-CRCon-Bot4Discord/graphs/contributors">
+    <img src="https://img.shields.io/github/contributors/FwSchultz/Mini-CRCon-Bot4Discord" alt="contributors" />
   </a>
   <a href="">
-    <img src="https://img.shields.io/github/last-commit/FwSchultz/Discord-VIP-Exchanger" alt="last update" />
+    <img src="https://img.shields.io/github/last-commit/FwSchultz/Mini-CRCon-Bot4Discord" alt="last update" />
   </a>
-  <a href="https://github.com/FwSchultz/Discord-VIP-Exchanger/network/members">
-    <img src="https://img.shields.io/github/forks/FwSchultz/vDiscord-VIP-Exchanger" alt="forks" />
+  <a href="https://github.com/FwSchultz/Mini-CRCon-Bot4Discord/network/members">
+    <img src="https://img.shields.io/github/forks/FwSchultz/Mini-CRCon-Bot4Discord" alt="forks" />
   </a>
-  <a href="https://github.com/FwSchultz/Discord-VIP-Exchanger/stargazers">
-    <img src="https://img.shields.io/github/stars/FwSchultz/Discord-VIP-Exchanger" alt="stars" />
+  <a href="https://github.com/FwSchultz/Mini-CRCon-Bot4Discord/stargazers">
+    <img src="https://img.shields.io/github/stars/FwSchultz/Mini-CRCon-Bot4Discord" alt="stars" />
   </a>
-  <a href="https://github.com/FwSchultz/Discord-VIP-Exchanger/issues/">
-    <img src="https://img.shields.io/github/issues/FwSchultz/Discord-VIP-Exchanger" alt="open issues" />
+  <a href="https://github.com/FwSchultz/Mini-CRCon-Bot4Discord/issues/">
+    <img src="https://img.shields.io/github/issues/FwSchultz/Mini-CRCon-Bot4Discord" alt="open issues" />
   </a>
-  <a href="https://github.com/FwSchultz/Discord-VIP-Exchanger/blob/master/LICENSE">
-    <img src="https://img.shields.io/github/license/FwSchultz/Discord-VIP-Exchanger.svg" alt="license" />
+  <a href="https://github.com/FwSchultz/Mini-CRCon-Bot4Discord/blob/master/LICENSE">
+    <img src="https://img.shields.io/github/license/FwSchultz/Mini-CRCon-Bot4Discord.svg" alt="license" />
   </a>
 </p>
    
 <h4>
-    <a href="https://github.com/FwSchultz/Discord-VIP-Exchanger">Documentation</a>
+    <a href="https://github.com/FwSchultz/Mini-CRCon-Bot4Discord">Documentation</a>
   <span> · </span>
-    <a href="https://github.com/FwSchultz/Discord-VIP-Exchanger/issues/">Report Bug</a>
+    <a href="https://github.com/FwSchultz/Mini-CRCon-Bot4Discord/issues/">Report Bug</a>
   <span> · </span>
-    <a href="https://github.com/FwSchultz/Discord-VIP-Exchanger/issues/">Request Feature</a>
+    <a href="https://github.com/FwSchultz/Mini-CRCon-Bot4Discord/issues/">Request Feature</a>
   </h4>
 </div>
 
@@ -152,7 +152,7 @@ Ensure `discord.py >= 2.2` is installed.
 
 ### 2) Clone Repository
 ```bash
-git clone https://github.com/FwSchultz/Discord-VIP-Exchanger
+git clone https://github.com/FwSchultz/Mini-CRCon-Bot4Discord
 cd Discord-VIP-Exchanger
 ```
 
