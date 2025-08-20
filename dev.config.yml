@@ -1,0 +1,79 @@
+app:
+  # Ob die Buttons permanent registriert werden sollen (empfohlen)
+  use_persistent_views: true
+  # Kanal, in dem das Steuerungs-Panel stehen soll
+  control_channel_id: 1223342343542346554
+  # Log-Channel-ID (optional)
+  log_channel_id: 1234567768677767667
+
+ui:
+  # Text des Hauptpanels
+  panel_title: "Steuerungs-Panel"
+  panel_intro: "Wähle eine Aktion. Missbrauch führt zum Entzug von Rechten."
+  panel_color: 0x2b2d31
+
+  # Optionales Theme (Farben als Hex oder "0x…")
+  theme:
+    primary: "0x2B2D31"   # dunkles Grau
+    accent:  "0x5865F2"   # Discord Blurple
+    success: "0x57F287"   # Grün
+    danger:  "0xED4245"   # Rot
+
+  icons:
+    panel_message: "💬"
+    panel_map: "🗺️"
+    panel_kick: "🔨"
+    panel_punish: "⚠️"
+    panel_switch: "🔁"
+
+    msg_one: "👤"
+    msg_allies: "🔵"
+    msg_axis: "🔴"
+    msg_all: "📣"
+    back: "↩️"
+
+  banner:
+    enabled: true
+    # Lokales Bild (relativ zum Projektordner)
+    path: "assets/panel_banner.png"
+    # Alternativ per URL:
+    # url: "https://example.com/dein-banner.png"
+
+api:
+  debug: true
+  timeout_seconds: 20
+  retries:
+    total: 2
+    backoff_factor: 0.3
+
+messaging:
+  enabled: true
+  # Sicherheits-Cooldown in Millisekunden zwischen Einzel-PMs
+  per_player_delay_ms: 120
+  # Pagination ab X Spielern
+  page_size: 25
+  # Auto-Löschung von Bestätigungen (Sekunden)
+  ephemeral_ttl_seconds: 20
+  buttons:
+    single: true
+    allies: true
+    axis: true
+    all: true
+
+map_switch:
+  enabled: true
+  button_label: "Map wechseln"
+  ephemeral: false
+  ttl_seconds: 15
+
+kick_player:
+  enable: true
+  require_reason: true
+  default_reason: "Regelverstoß"
+
+punish_player:
+  enable: true
+  default_by: "Admin"
+
+switch_player:
+  enable: true
