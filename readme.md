@@ -153,7 +153,7 @@ Ensure `discord.py >= 2.2` is installed.
 ### 2) Clone Repository
 ```bash
 git clone https://github.com/FwSchultz/Mini-CRCon-Bot4Discord
-cd Discord-VIP-Exchanger
+cd Mini-CRCon-Bot4Discord
 ```
 
 ### 3) Copy Templates (`dev.*`) to Active Files
@@ -207,8 +207,8 @@ After=network.target
 
 [Service]
 User=botuser
-WorkingDirectory=/home/botuser/mini-crcon
-ExecStart=/home/botuser/mini-crcon/venv/bin/python3 bot.py
+WorkingDirectory=/home/botuser/Mini-CRCon-Bot4Discord
+ExecStart=/home/botuser/Mini-CRCon-Bot4Discord/venv/bin/python3 bot.py
 Restart=always
 
 [Install]
@@ -277,7 +277,6 @@ pip install -r requirements.txt
 ## 💡 Usage
 The bot runs in Discord and is controlled via:  
 - **Buttons & menus** (send messages to single players, allies, axis, or all)  
-- **Slash commands** (e.g., `/panel`, `/diag`)  
 
 ---
 
