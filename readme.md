@@ -98,16 +98,15 @@ Create the **CRCON API token** with at least these permissions:
 - `kick` → ✅ api | rcon user | Can kick players
 - `punish` → ✅ api | rcon user | Can punish players
 - `switch_player_now` → ✅ api | rcon user | Can immediately switch players
-
+ 
+> [!TIP]
+> #### Copy and Store the token in a text file
 ---
 
 ## ⚙️ Getting Started
 
 ### 1) Create a Discord Bot
 - Create an application in the Developer Portal, add a **Bot**, enable **Message Content Intent**.
- 
-> [!TIP]
-> #### Copy and Store the token in a text file
 
 ### 🔐 Discord Bot Permissions
 When creating your bot in the [Discord Developer Portal](https://discord.com/developers/applications):  
