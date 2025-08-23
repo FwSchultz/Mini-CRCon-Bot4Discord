@@ -37,7 +37,6 @@
 
 </div>
 <br />
----
 
 ## 📑 Inhaltsverzeichnis
 - [Über das Projekt](#über-das-projekt)  
