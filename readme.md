@@ -36,26 +36,19 @@
 
 <br />
 
-<!-- Table of Contents -->
 ---
 
 ## 📑 Table of Contents
-- [About the Project](#about-the-project)  
-- [Tech Stack](#tech-stack)  
-- [Environment Variables & Tokens](#environment-variables--tokens)  
-- [Requirements](#requirements)  
-- [Getting Started](#getting-started)  
-  - [Create a Discord Bot](#create-a-discord-bot)  
-  - [Clone Repository](#clone-repository)  
-  - [Copy Templates (`dev.*`) to Active Files](#copy-templates-dev-to-active-files)  
-  - [Setup Virtual Environment](#setup-virtual-environment)  
-  - [Run the Bot](#run-the-bot)  
-- [Virtual Environments & Installing Extra Python Versions](#virtual-environments--installing-extra-python-versions)  
-- [Usage](#usage)  
-- [Commands](#commands)  
-- [Roadmap](#roadmap)  
-- [License](#license)  
-- [Contact](#contact)  
+- [About the Project](#-about-the-project)  
+- [Tech Stack](#-tech-stack)  
+- [Environment Variables & Tokens](#-environment-variables--tokens)  
+- [Getting Started](#-getting-started)  
+- [Virtual Environments & Installing Extra Python Versions](#-virtual-environments--installing-extra-python-versions)  
+- [Usage](#-usage)  
+- [Commands](#-commands)  
+- [Roadmap](#-roadmap)  
+- [License](#-license)  
+- [Contact](#-contact)  
 
 ---
 
@@ -95,6 +88,27 @@ API_TOKEN=YOUR_CRCON_API_TOKEN
 LOG_LEVEL=INFO
 ```
 
+### 🔐 CRCON API Permissions
+Create the **CRCON API token** with at least these permissions:  
+
+- `get_players` → ✅ api | rcon user | Can view get_players endpoint (name, steam ID, VIP status and sessions) for all connected players
+- `get_detailed_players` → ✅ api | rcon user | Can view get_detailed_players endpoint
+- `message_player` → ✅ api | rcon user | Can message players
+- `set_map` → ✅ api | rcon user | Can change the current map
+- `kick` → ✅ api | rcon user | Can kick players
+- `punish` → ✅ api | rcon user | Can punish players
+- `switch_player_now` → ✅ api | rcon user | Can immediately switch players
+
+---
+
+## ⚙️ Getting Started
+
+### 1) Create a Discord Bot
+- Create an application in the Developer Portal, add a **Bot**, enable **Message Content Intent**.
+ 
+> [!TIP]
+> #### Copy and Store the token in a text file
+
 ### 🔐 Discord Bot Permissions
 When creating your bot in the [Discord Developer Portal](https://discord.com/developers/applications):  
 
@@ -106,49 +120,14 @@ When creating your bot in the [Discord Developer Portal](https://discord.com/dev
 - ✅ View Channels  
 - ✅ Send Messages  
 - ✅ Embed Links  
-- ✅ Attach Files (required if you send banners or images)  
+- ✅ Attach Files  
 - ✅ Read Message History  
-- ✅ Manage Messages (required so the bot can clean up the panel channel; without it, it can only delete its own messages)  
+- ✅ Manage Messages
+ 
+Invite the bot using scopes `bot` and `applications.commands` with the required permissions and copy the **Bot Token**.
 
----
-
-### 🔐 CRCON API Permissions
-Create the CRCON API token with at least these permissions:  
-
-- `get_players` → ✅ api | rcon user | Can view get_players endpoint (name, steam ID, VIP status and sessions) for all connected players
-- `get_detailed_players` → ✅ api | rcon user | Can view get_detailed_players endpoint
-- `message_player` → ✅ api | rcon user | Can message players
-- `set_map` → ✅ api | rcon user | Can change the current map
-- `kick` → ✅ api | rcon user | Can kick players
-- `punish` → ✅ api | rcon user | Can punish players
-- `switch_player_now` → ✅ api | rcon user | Can immediately switch players 
-
----
-
-## 📦 Requirements
-
-```bash
-sudo apt update && sudo apt install python3 python3-venv python3-pip -y
-```
-
-Create a virtual environment and install dependencies:
-
-```bash
-python3 -m venv venv
-source venv/bin/activate
-pip install -U pip wheel
-pip install -r requirements.txt
-```
-
-Ensure `discord.py >= 2.2` is installed.
-
----
-
-## ⚙️ Getting Started
-
-### 1) Create a Discord Bot
-- Create an application in the Developer Portal, add a **Bot**, enable **Message Content Intent**, copy the **Bot Token**.  
-- Invite the bot using scopes `bot` and `applications.commands` and the permissions listed above.
+> [!TIP]
+> #### Copy and Store the token in a text file
 
 ### 2) Clone Repository
 ```bash
@@ -157,46 +136,23 @@ cd Mini-CRCon-Bot4Discord
 ```
 
 ### 3) Copy Templates (`dev.*`) to Active Files
-Use the provided development templates and rename them:
-
-**Linux/macOS**
 ```bash
 cp dev.env .env
 cp dev.config.yml config.yml
 ```
 
-**Windows (PowerShell)**
-```powershell
-Copy-Item dev.env .env
-Copy-Item dev.config.yml config.yml
-```
+Edit `.env` (tokens, channel IDs) and `config.yml` (UI text, panel title, feature toggles).
 
-> Edit `.env` (tokens, channel IDs) and `config.yml` (UI text, panel title, feature toggles).
-
-### 4) Setup Virtual Environment
-Pick your installed Python version (examples below). Each line creates, activates, installs, and then deactivates:
-
+### 4) Run the Bot
 ```bash
-python3.10 -m venv venv && source venv/bin/activate && pip install -r requirements.txt && deactivate
-python3.11 -m venv venv && source venv/bin/activate && pip install -r requirements.txt && deactivate
-python3.12 -m venv venv && source venv/bin/activate && pip install -r requirements.txt && deactivate
-```
-
-### 5) Run the Bot
-```bash
-# Linux/macOS
+sudo apt update && sudo apt install python3 python3-venv python3-pip -y
 source venv/bin/activate
-python bot.py
-```
-
-```powershell
-# Windows PowerShell
-.env\Scripts\Activate.ps1
+pip install -r requirements.txt
 python bot.py
 ```
 
 On startup the bot will:
-- Clear non‑pinned messages in the control channel  
+- Clear non-pinned messages in the control channel  
 - Post the **control panel** with buttons and menus  
 
 ### (Optional) Run as a Systemd Service
@@ -219,28 +175,21 @@ WantedBy=multi-user.target
 
 ## 🔁 Virtual Environments & Installing Extra Python Versions
 
-### Check your current Python versions
-```bash
-python3 -V
-python3.10 -V  # if installed
-python3.11 -V
-python3.12 -V
-```
-
-### Ubuntu/Debian – Install additional versions (via deadsnakes)
+### Ubuntu/Debian
 ```bash
 sudo apt update
 sudo apt install -y software-properties-common
 sudo add-apt-repository -y ppa:deadsnakes/ppa
 sudo apt update
-sudo apt install -y python3.10 python3.10-venv python3.10-distutils                     python3.11 python3.11-venv python3.11-distutils                     python3.12 python3.12-venv python3.12-distutils
+sudo apt install -y python3.10 python3.10-venv python3.10-distutils \
+                   python3.11 python3.11-venv python3.11-distutils \
+                   python3.12 python3.12-venv python3.12-distutils
 ```
 
 Create a venv with a specific version:
 ```bash
 python3.12 -m venv venv
 source venv/bin/activate
-pip install -U pip wheel
 pip install -r requirements.txt
 ```
 
@@ -254,35 +203,24 @@ pip install -r requirements.txt
 
 ### Fedora/RHEL/CentOS
 ```bash
-# Fedora
 sudo dnf install -y python3.12 python3.12-pip python3.12-venv
-
-# RHEL/CentOS (use EPEL or Software Collections as needed)
-sudo yum install -y python3
 ```
-
-### Windows
-Use the **py launcher** to pick a version and create a venv:
-```powershell
-py -3.12 -m venv venv
-.env\Scripts\Activate.ps1
-pip install -U pip wheel
-pip install -r requirements.txt
-```
-
-> Tip: Install multiple Windows Python versions from python.org; `py -0p` lists installed versions.
 
 ---
 
 ## 💡 Usage
 The bot runs in Discord and is controlled via:  
-- **Buttons & menus** (send messages to single players, allies, axis, or all)  
+- **Buttons & menus** (send messages to one player, allies, axis, or all)  
 
 ---
 
 ## ⌨️ Commands
 Control Panel buttons:
-- **Message → One Player** (with pagination if >25 players)  
+- **Change Map**
+- **Switch Player**
+- **Punish**
+- **Kick**
+- **Message → One Player** (pagination if >25 players)  
 - **Message → Allies**  
 - **Message → Axis**  
 - **Message → All**  
@@ -290,11 +228,7 @@ Control Panel buttons:
 ---
 
 ## 🗺 Roadmap
-- [x] Player messaging system  
-- [x] API diagnostics command  
-- [x] Extended moderation features (kick/ban/switch/map change from Discord panel)  
 - [ ] Multilingual support (`translations.json`)  
-
 
 ---
 
