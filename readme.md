@@ -158,12 +158,16 @@ On startup the bot will:
 ```ini
 [Unit]
 Description=Mini-CRCON Discord Bot
-After=network.target
+After=network-online.target
+OnFailure=unit-status-mail@%n.service
 
 [Service]
-User=botuser
-WorkingDirectory=/home/botuser/Mini-CRCon-Bot4Discord
-ExecStart=/home/botuser/Mini-CRCon-Bot4Discord/venv/bin/python3 bot.py
+User=root
+Type=simple
+Restart=always
+RestartSec=3
+WorkingDirectory=/opt/minircon/Mini-CRCon-Bot4Discord
+ExecStart=/bin/bash -c 'cd /opt/minircon/Mini-CRCon-Bot4Discord && source venv/bin/activate && python3 -u bot.py'
 Restart=always
 
 [Install]
