@@ -33,7 +33,7 @@
     <a href="https://github.com/FwSchultz/Mini-CRCon-Bot4Discord/issues/">Request Feature</a>
   </h4>
 
-[German version](README_DE.md)
+[German version](readme_DE.md)
 
 </div>
 <br />
