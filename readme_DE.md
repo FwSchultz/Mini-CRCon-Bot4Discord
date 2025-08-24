@@ -1,7 +1,7 @@
 <div align="center">
 
   <img src="https://github.com/FwSchultz/assets/blob/main/bots/FwS-Bots/Bot.png" alt="logo" width="200" height="auto" />
-  <h1>**A lightweight Discord bot to manage and control a Hell Let Loose server via CRCON.**</h1>
+  <h1>**Ein kleiner Mini Discord-Bot zur Verwaltung und Steuerung eines Hell Let Loose-Servers über das CRCON.**</h1>
   
 <!-- Badges -->
 <p>
