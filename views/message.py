@@ -4,6 +4,8 @@ import discord
 from typing import List, Dict, Optional, Callable
 import yaml
 import os, json
+import logging
+logger = logging.getLogger("views.message")
 
 from utils.permissions import user_is_admin
 from api_client import (
@@ -102,7 +104,7 @@ async def _log(interaction: discord.Interaction, *, title: str, desc: str = "", 
         ch = interaction.client.get_channel(LOG_CHANNEL_ID)
         if ch is None:
             ch = await interaction.client.fetch_channel(LOG_CHANNEL_ID)  # type: ignore
-        if isinstance(ch, (discord.TextChannel, discord.Thread, discord.VoiceChannel)):
+        if isinstance(ch, (discord.TextChannel, discord.Thread)):
             e = make_embed(title, desc, color)
             try:
                 e.set_footer(text=f"by {interaction.user} • ID {interaction.user.id}")
@@ -178,12 +180,13 @@ def load_enabled_maps():
 
 class AdminOnlyView(discord.ui.View):
     async def interaction_check(self, interaction: discord.Interaction) -> bool:
-        if not user_is_admin(interaction.user):
+        is_admin = user_is_admin(interaction.user)
+        if not is_admin:
             try:
                 await interaction.response.send_message("⛔ Dafür fehlen dir die Rechte.", ephemeral=True)
             except Exception:
                 pass
-        return user_is_admin(interaction.user)
+        return is_admin
 
 class MapModeButton(discord.ui.Button):
     def __init__(self, mode: str, count: int):
@@ -218,15 +221,15 @@ class MapModeView(AdminOnlyView):
             ))
 
 class MapSelect(discord.ui.Select):
-    def __init__(self, parent: "MapSelectView", options: List[discord.SelectOption]):
+    def __init__(self, parent_view: "MapSelectView", options: List[discord.SelectOption]):
         super().__init__(placeholder="Map auswählen …", min_values=1, max_values=1, options=options)
-        self.parent = parent
+        self.parent_view = parent_view
 
     async def callback(self, interaction: discord.Interaction):
         key = self.values[0]
-        label = self.parent.get_label(key)
+        label = self.parent_view.get_label(key)
         await interaction.response.edit_message(
-            content=f"**Ausgewählt:** {self.parent.mode} → `{label}`\nBestätigen?",
+            content=f"**Ausgewählt:** {self.parent_view.mode} → `{label}`\nBestätigen?",
             view=MapConfirmView(key, label)
         )
 
@@ -269,75 +272,68 @@ class MapSelectView(AdminOnlyView):
             self.add_item(MapPageNext(self))
 
 class MapPagePrev(discord.ui.Button):
-    def __init__(self, parent: MapSelectView):
+    def __init__(self, owner: MapSelectView):
         super().__init__(style=discord.ButtonStyle.secondary, label="◀")
-        self.parent = parent
+        self.owner = owner
 
     async def callback(self, interaction: discord.Interaction):
-        if self.parent.page > 0:
-            self.parent.page -= 1
-            self.parent._rebuild()
-            await interaction.response.edit_message(view=self.parent)
+        if self.owner.page > 0:
+            self.owner.page -= 1
+            self.owner._rebuild()
+            await interaction.response.edit_message(view=self.owner)
         else:
             await interaction.response.defer()
 
 class MapPageNext(discord.ui.Button):
-    def __init__(self, parent: MapSelectView):
+    def __init__(self, owner: MapSelectView):
         super().__init__(style=discord.ButtonStyle.secondary, label="▶")
-        self.parent = parent
+        self.owner = owner
 
     async def callback(self, interaction: discord.Interaction):
-        if (self.parent.page + 1) * self.parent.page_size < len(self.parent.maps):
-            self.parent.page += 1
-            self.parent._rebuild()
-            await interaction.response.edit_message(view=self.parent)
+        if (self.owner.page + 1) * self.owner.page_size < len(self.owner.maps):
+            self.owner.page += 1
+            self.owner._rebuild()
+            await interaction.response.edit_message(view=self.owner)
         else:
             await interaction.response.defer()
 
 class MapConfirmYes(discord.ui.Button):
-    def __init__(self, parent: "MapConfirmView"):
+    def __init__(self, owner: "MapConfirmView"):
         super().__init__(label="✅ Map jetzt setzen", style=discord.ButtonStyle.success)
-        self.parent = parent
+        self.owner = owner  # <— eigener Verweis statt 'parent'
 
     async def callback(self, interaction: discord.Interaction):
+        label = self.owner.label
+        key = self.owner.map_key
+
+        logger.debug("set_map requested by user=%s: key=%s label=%s",
+                     getattr(interaction.user, "id", "?"), key, label)
+
+        # 1) Sofort Status zeigen
         await interaction.response.edit_message(
-            content=f"⏳ Setze Map: `{self.parent.label}` (`{self.parent.map_key}`) …",
+            content=f"⏳ Setze Map: `{label}` (`{key}`) …",
             view=None
         )
-        res = await asyncio.to_thread(set_map, self.parent.map_key)
-        ok = bool(res.get("ok")) if isinstance(res, dict) else ("ok" in str(res).lower())
 
+        # 2) EINMAL Map setzen
+        res = await asyncio.to_thread(set_map, key)
+        ok = bool(res.get("ok")) if isinstance(res, dict) else ("ok" in str(res).lower())
+        logger.debug("set_map result ok=%s res=%r", ok, res)
+
+        # 3) Ergebnis
         if ok:
-            final_text = f"🗺️ **Map gesetzt:** `{self.parent.label}` (`{self.parent.map_key}`)"
+            final_text = f"🗺️ **Map gesetzt:** `{label}` (`{key}`)"
         else:
             err = res.get("error") if isinstance(res, dict) else str(res)[:900]
-            final_text = f"❌ **Fehler beim Setzen der Map** `{self.parent.label}`\n```{err}```"
+            final_text = f"❌ **Fehler beim Setzen der Map** `{label}`\n```{err}```"
 
         try:
             await interaction.message.edit(content=final_text, view=None)
         except Exception:
             pass
 
-        # LOG
-        if ok:
-            await _log(interaction,
-                       title="🗺️ Map gewechselt",
-                       desc=f"`{self.parent.label}` (`{self.parent.map_key}`) gesetzt.",
-                       color=SUCCESS_COLOR)
-        else:
-            await _log(interaction,
-                       title="❌ Fehler beim Mapwechsel",
-                       desc=final_text,
-                       color=DANGER_COLOR)
-
-        if MAP_SWITCH_EPHEMERAL:
-            try:
-                await interaction.followup.send("✅ Vorgang abgeschlossen.", ephemeral=True, delete_after=15)
-            except Exception:
-                pass
-        else:
-            if interaction.message:
-                asyncio.create_task(_try_delete_message_later(interaction.message, MAP_SWITCH_TTL_SECONDS))
+        if not MAP_SWITCH_EPHEMERAL and interaction.message:
+            asyncio.create_task(_try_delete_message_later(interaction.message, MAP_SWITCH_TTL_SECONDS))
 
 class MapConfirmNo(discord.ui.Button):
     def __init__(self):
@@ -367,6 +363,7 @@ class MapSwitchButton(discord.ui.Button):
         )
 
     async def callback(self, interaction: discord.Interaction):
+        logger.debug("map_switch_open by user=%s", getattr(interaction.user, "id", "?"))
         if not user_is_admin(interaction.user):
             return await interaction.response.send_message("⛔ Dafür fehlen dir die Rechte.", ephemeral=True)
 
@@ -449,6 +446,7 @@ class PlayerPickerView(discord.ui.View):
 
     async def load_players(self):
         players = await asyncio.to_thread(get_players)
+        logger.debug("loaded %d players", len(players))
         self.players = sorted(players, key=lambda p: (-int(p.get("is_vip") or 0), str(p.get("name") or "")))
         if self.players:
             self._refresh_components()
@@ -488,6 +486,8 @@ class KickModal(discord.ui.Modal):
         self.add_item(self.reason_input)
 
     async def on_submit(self, interaction: discord.Interaction):
+        logger.debug("kick submit by=%s target=%s (%s)", getattr(interaction.user,"id","?"),
+                     self.player_name, self.steam_id)
         # Dropdown schließen
         try:
             if self.origin_interaction:
@@ -536,6 +536,7 @@ class PunishModal(discord.ui.Modal):
         self.add_item(self.reason_input)
 
     async def on_submit(self, interaction: discord.Interaction):
+        logger.debug("punish submit by=%s target=%s (%s)", getattr(interaction.user,"id","?"), self.player_name)
         try:
             if self.origin_interaction:
                 await self.origin_interaction.delete_original_response()
@@ -586,6 +587,7 @@ class SwitchPlayerModal(discord.ui.Modal):
         self.add_item(self.info)
 
     async def on_submit(self, interaction: discord.Interaction):
+        logger.debug("switch submit by=%s target=%s (%s)", getattr(interaction.user,"id","?"), self.player_name)
         try:
             if self.origin_interaction:
                 await self.origin_interaction.delete_original_response()
@@ -641,6 +643,7 @@ class KickButton(discord.ui.Button):
         )
 
     async def callback(self, interaction: discord.Interaction):
+        logger.debug("kick flow started by user=%s", getattr(interaction.user, "id", "?"))
         if not user_is_admin(interaction.user):
             return await interaction.response.send_message("⛔ Dafür fehlen dir die Rechte.", ephemeral=True)
         await interaction.response.send_message(
@@ -652,7 +655,7 @@ class KickButton(discord.ui.Button):
         await picker.load_players()
 
         if not picker.players:
-            detail = get_last_error() or "API derzeit nicht erreichbar."
+            detail = get_last_error() or "Keine Spieler online."
             return await interaction.edit_original_response(
                 content=f"❌ Keine Spieler gefunden. Hinweis: {detail}", view=None
             )
@@ -680,6 +683,7 @@ class PunishButton(discord.ui.Button):
         )
 
     async def callback(self, interaction: discord.Interaction):
+        logger.debug("punish flow started by user=%s", getattr(interaction.user, "id", "?"))
         if not user_is_admin(interaction.user):
             return await interaction.response.send_message("⛔ Dafür fehlen dir die Rechte.", ephemeral=True)
         await interaction.response.send_message(
@@ -691,7 +695,7 @@ class PunishButton(discord.ui.Button):
         await picker.load_players()
 
         if not picker.players:
-            detail = get_last_error() or "API derzeit nicht erreichbar."
+            detail = get_last_error() or "Keine Spieler online."
             return await interaction.edit_original_response(
                 content=f"❌ Keine Spieler gefunden. Hinweis: {detail}", view=None
             )
@@ -718,6 +722,7 @@ class SwitchPlayerButton(discord.ui.Button):
         )
 
     async def callback(self, interaction: discord.Interaction):
+        logger.debug("switch flow started by user=%s", getattr(interaction.user, "id", "?"))
         if not user_is_admin(interaction.user):
             return await interaction.response.send_message("⛔ Dafür fehlen dir die Rechte.", ephemeral=True)
         await interaction.response.send_message(
@@ -729,7 +734,7 @@ class SwitchPlayerButton(discord.ui.Button):
         await picker.load_players()
 
         if not picker.players:
-            detail = get_last_error() or "API derzeit nicht erreichbar."
+            detail = get_last_error() or "Keine Spieler online."
             return await interaction.edit_original_response(
                 content=f"❌ Keine Spieler gefunden. Hinweis: {detail}", view=None
             )
@@ -814,7 +819,7 @@ class MessageSubmenuView(discord.ui.View):
         await picker.load_players()
 
         if not picker.players:
-            detail = get_last_error() or "API derzeit nicht erreichbar."
+            detail = get_last_error() or "Keine Spieler online."
             await interaction.edit_original_response(content=f"❌ Keine Spieler gefunden. Hinweis: {detail}", view=None)
             return
 

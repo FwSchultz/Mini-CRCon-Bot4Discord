@@ -6,6 +6,21 @@ app:
   # Log-Channel-ID (optional)
   log_channel_id: 1234567768677767667
 
+permissions:
+  # Nur wenn ihr explizit KEINE Admin-Permission akzeptieren wollt:
+  allow_admin_perm: false
+  # Server-Owner darf immer? (kannst du auch auf false setzen)
+  allow_guild_owner: true
+
+  # Erlaubte Rollen (IDs!) – hier kommt DEINE Admin-Rolle rein
+  role_ids:
+    - 1234567768677767667
+
+  # Optional: Whitelist einzelner User (IDs)
+  user_ids: []
+  # Debug-Ausgabe im Log aktivieren (optional)
+  debug: true
+
 ui:
   # Text des Hauptpanels
   panel_title: "Steuerungs-Panel"

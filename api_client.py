@@ -1,3 +1,4 @@
+# api_client.py
 from __future__ import annotations
 import logging
 import os
@@ -45,7 +46,7 @@ HEADERS = {
 # Logging / HTTP Session mit Retries
 # -----------------------------------------------------------------------------
 logger = logging.getLogger("api_client")
-logger.setLevel(logging.DEBUG if CONFIG.get("api", {}).get("debug") else logging.INFO)
+# Level wird durch Root-Logger aus logging_setup.py bestimmt
 
 TIMEOUT = int(CONFIG.get("api", {}).get("timeout_seconds", 20))
 RETRIES_CFG = CONFIG.get("api", {}).get("retries", {}) or {}
@@ -74,17 +75,13 @@ def _request(method: str, url: str, *, json: Optional[dict] = None, params: Opti
         r = _session.request(method, url, headers=HEADERS, json=json, params=params, timeout=TIMEOUT)
     except Exception as e:
         _LAST_ERROR = f"request-error {method} {url}: {e}"
-        if logger.isEnabledFor(logging.DEBUG):
-            logger.error(_LAST_ERROR)
+        logger.error(_LAST_ERROR)
         raise
 
     dt_ms = int((time.perf_counter() - t0) * 1000)
-    if logger.isEnabledFor(logging.DEBUG):
-        body_preview = (r.text or "")[:400]
-        logger.debug(
-            "HTTP %s %s → %s in %d ms | resp-bytes=%s | preview=%r",
-            method, url, r.status_code, dt_ms, r.headers.get("Content-Length"), body_preview,
-        )
+    body_preview = (r.text or "")[:400]
+    logger.debug("HTTP %s %s → %s in %d ms | resp-bytes=%s | preview=%r",
+                 method, url, r.status_code, dt_ms, r.headers.get("Content-Length"), body_preview)
 
     if r.status_code >= 400:
         _LAST_ERROR = f"HTTP {r.status_code} for {url}; body={(r.text or '')[:500]}"
@@ -115,7 +112,7 @@ def get_players() -> List[Dict]:
     try:
         data = _get(f"{API_BASE_URL}/api/get_players")
     except Exception as e:
-        print(f"[api_client] get_players() fehlgeschlagen: {e}")
+        logger.warning("get_players() fehlgeschlagen: %s", e)
         return []
 
     result: List[Dict] = []
@@ -128,13 +125,14 @@ def get_players() -> List[Dict]:
                 "team": p.get("team"),
             }
         )
+    logger.debug("get_players(): %d Spieler", len(result))
     return result
 
 def get_detailed_players() -> List[Dict]:
     try:
         raw = _get(f"{API_BASE_URL}/api/get_detailed_players")
     except Exception as e:
-        print(f"[api_client] get_detailed_players() fehlgeschlagen: {e}")
+        logger.warning("get_detailed_players() fehlgeschlagen: %s", e)
         return []
 
     payload = raw.get("result") or raw.get("data", {}).get("result")
@@ -235,6 +233,7 @@ def set_map(map_name: str) -> dict:
             msg = f"{e} | status={resp.status_code} | body={(resp.text or '')[:800]} | payload={payload}"
         global _LAST_ERROR
         _LAST_ERROR = msg
+        logger.error("set_map() Fehler: %s", msg)
         return {"ok": False, "error": msg}
 
 def do_kick_player(player: str, steam_id_64: str, reason: str) -> dict:
@@ -264,12 +263,10 @@ def do_switch_player_now(player_name: str) -> bool:
     r.raise_for_status()
     try:
         js = r.json()
-        # häufig liefert dein Backend {"result": true, ...}
         if isinstance(js, dict) and "result" in js:
             return bool(js["result"])
     except Exception:
         pass
-    # wenn keine JSON-Antwort → 2xx als Erfolg werten
     return True
 
 # -----------------------------------------------------------------------------
@@ -309,10 +306,10 @@ def try_endpoints(candidates: List[str]) -> dict:
 
 def diagnose() -> dict:
     net = _tcp_connectivity_check()
-    ver = try_endpoints(["/api/version", "/api/about", "/version", "/health"])
+    ver = try_endpoints(["/api/get_version", "/api/version", "/api/about", "/version", "/health"])
     try:
         data = _get(f"{API_BASE_URL}/api/get_players")
-        players = {"status": 200, "count": len(data.get("result", []))}
+        players = {"status": 200, "count": len(data.get("result", [])), "api_version": data.get("version")}
     except Exception as e:
         players = {"status": "error", "error": str(e)}
     return {
