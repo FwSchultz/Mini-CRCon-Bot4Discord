@@ -33,7 +33,7 @@
     <a href="https://github.com/FwSchultz/Mini-CRCon-Bot4Discord/issues/">Request Feature</a>
   </h4>
 
-[English version](README.md)
+[English version](readme.md)
 
 </div>
 <br />
@@ -86,7 +86,6 @@ Alle geheimen Daten werden in `.env` gespeichert:
 ```env
 # Discord
 DISCORD_TOKEN=DEIN_DISCORD_BOT_TOKEN
-ADMIN_ROLE_IDS=111111111111111111,222222222222222222
 
 # CRCON / API
 API_BASE_URL=https://crcon.example.com
