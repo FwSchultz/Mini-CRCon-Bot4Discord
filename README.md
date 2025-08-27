@@ -86,7 +86,6 @@ All secrets are stored in `.env`:
 ```env
 # Discord
 DISCORD_TOKEN=YOUR_DISCORD_BOT_TOKEN
-ADMIN_ROLE_IDS=111111111111111111,222222222222222222
 
 # CRCON / API
 API_BASE_URL=https://crcon.example.com
