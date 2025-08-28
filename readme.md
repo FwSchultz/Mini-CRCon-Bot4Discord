@@ -166,8 +166,6 @@ cp dev.config.yml config.yml
 ### 5) Edit Configuration Files
 - Open `.env` with an editor (e.g. `nano .env` or any text editor):
   - Replace `YOUR_DISCORD_BOT_TOKEN` with your bot token.
-  - Set `CONTROL_CHANNEL_ID` to your Discord channel ID (Right-click > **Copy ID**; enable Developer Mode in Discord first).
-  - Set `ADMIN_ROLE_IDS` to your admin role IDs (comma-separated).
   - Replace `https://crcon.example.com` and `YOUR_CRCON_API_TOKEN` with your values.
 - Open `config.yml` (e.g. `nano config.yml` or a text editor) and adjust as needed:
 
@@ -182,6 +180,21 @@ app:
   control_channel_id: 1223342343542346554
   # Log-Channel-ID (optional)
   log_channel_id: 1234567768677767667
+
+permissions:
+  # Nur wenn ihr explizit KEINE Admin-Permission akzeptieren wollt:
+  allow_admin_perm: false
+  # Server-Owner darf immer? (kannst du auch auf false setzen)
+  allow_guild_owner: true
+
+  # Erlaubte Rollen (IDs!) – hier kommt DEINE Admin-Rolle rein
+  role_ids:
+    - 1391234568304640023
+
+  # Optional: Whitelist einzelner User (IDs)
+  user_ids: []
+  # Debug-Ausgabe im Log aktivieren (optional)
+  debug: true
 
 ui:
   # Text des Hauptpanels
