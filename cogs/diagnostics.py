@@ -4,6 +4,7 @@ import logging
 import discord
 from discord.ext import commands
 from api_client import diagnose
+from utils.permissions import user_is_admin
 
 logger = logging.getLogger("cog.diagnostics")
 
@@ -38,6 +39,8 @@ class DiagnosticsCog(commands.Cog):
         description="API-Diagnose (Erreichbarkeit, Version, Status, Spielerzahl)"
     )
     async def diag(self, ctx: commands.Context):
+        if not user_is_admin(ctx.author):
+            return await ctx.reply("⛔ Dafür fehlen dir die Rechte.", ephemeral=True if ctx.interaction else False)
         # Defer (bei Slash ephemer, bei Prefix normal)
         try:
             if ctx.interaction:

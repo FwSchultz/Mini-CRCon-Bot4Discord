@@ -1,0 +1,72 @@
+app:
+  use_persistent_views: true
+  control_channel_id: 0
+  log_channel_id: 0
+  purge_control_channel_on_start: true
+
+permissions:
+  allow_admin_perm: false
+  allow_guild_owner: true
+  role_ids: []
+  user_ids: []
+  debug: false
+
+ui:
+  panel_title: "Steuerungs-Panel"
+  panel_intro: "Wähle eine Aktion. Missbrauch führt zum Entzug von Rechten."
+  panel_color: 0x2b2d31
+  theme:
+    primary: "0x2B2D31"
+    accent: "0x5865F2"
+    success: "0x57F287"
+    danger: "0xED4245"
+  icons:
+    panel_message: "💬"
+    panel_map: "🗺️"
+    panel_kick: "🔨"
+    panel_punish: "⚠️"
+    panel_switch: "🔁"
+    msg_one: "👤"
+    msg_allies: "🔵"
+    msg_axis: "🔴"
+    msg_all: "📣"
+    back: "↩️"
+  banner:
+    enabled: true
+    path: "assets/panel_banner.png"
+
+api:
+  debug: false
+  timeout_seconds: 20
+  retries:
+    total: 2
+    backoff_factor: 0.3
+
+messaging:
+  enabled: true
+  per_player_delay_ms: 120
+  page_size: 25
+  ephemeral_ttl_seconds: 20
+  buttons:
+    single: true
+    allies: true
+    axis: true
+    all: true
+
+map_switch:
+  enabled: true
+  button_label: "Map wechseln"
+  ephemeral: false
+  ttl_seconds: 15
+
+kick_player:
+  enable: true
+  require_reason: true
+  default_reason: "Regelverstoß"
+
+punish_player:
+  enable: true
+  default_by: "Admin"
+
+switch_player:
+  enable: true

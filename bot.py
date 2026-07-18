@@ -41,6 +41,8 @@ intents.message_content = True
 intents.guilds = True
 
 bot = commands.Bot(command_prefix="!", intents=intents)
+_extensions_loaded = False
+_ready_initialized = False
 
 # -----------------------------------------------------------------------------
 # (Optional) schlichtes Embed für das Panel
@@ -83,6 +85,9 @@ def build_panel_embed_and_banner(ui_cfg: dict) -> Tuple[discord.Embed, Optional[
 # Cog-Loader (lädt cogs/diagnostics.py & cogs/messaging.py, wenn vorhanden)
 # -----------------------------------------------------------------------------
 async def load_extensions():
+    global _extensions_loaded
+    if _extensions_loaded:
+        return
     cogs_dir = BASE_DIR / "cogs"
     if not cogs_dir.exists():
         logger.debug("Kein cogs/ Verzeichnis gefunden – überspringe Cog-Load.")
@@ -98,6 +103,7 @@ async def load_extensions():
             logger.info("Cog geladen: %s", name)
         except Exception as e:
             logger.error("Cog %s konnte nicht geladen werden: %s", name, e)
+    _extensions_loaded = True
 # -----------------------------------------------------------------------------
 # Log-Channel Helper (optional)
 # -----------------------------------------------------------------------------
@@ -198,7 +204,12 @@ async def on_app_command_error(interaction: discord.Interaction, error: Exceptio
 # -----------------------------------------------------------------------------
 @bot.event
 async def on_ready():
+    global _ready_initialized
     logger.info("Eingeloggt als %s (ID: %s)", bot.user, bot.user.id)
+
+    if _ready_initialized:
+        logger.info("Reconnect erkannt – Initialisierung wird nicht erneut ausgeführt.")
+        return
 
     # Persistente Views registrieren (falls gewünscht)
     from views.message import MessageMainView  # nach Logging-Setup importieren
@@ -235,8 +246,9 @@ async def on_ready():
         logger.error("Channel %s ist kein TextChannel.", control_channel_id)
         return
 
-    # Kanalinhalt löschen und Panel neu posten
-    await purge_control_channel(channel)
+    # Kanalinhalt optional löschen und Panel neu posten
+    if bool(_CFG.get("app", {}).get("purge_control_channel_on_start", True)):
+        await purge_control_channel(channel)
 
     ui_cfg = _CFG.get("ui", {}) or {}
     embed, banner_file = build_panel_embed_and_banner(ui_cfg)
@@ -246,6 +258,7 @@ async def on_ready():
         await channel.send(embed=embed, view=MessageMainView())
 
     logger.info("Panel im Control-Channel bereitgestellt.")
+    _ready_initialized = True
     # Optional: Log-Channel benachrichtigen
     try:
         if channel.guild:

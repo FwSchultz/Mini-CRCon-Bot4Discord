@@ -1,0 +1,11 @@
+.git
+.gitignore
+.env
+config.yml
+logs
+__pycache__
+*.py[cod]
+.venv
+venv
+README.md
+CHANGELOG.md

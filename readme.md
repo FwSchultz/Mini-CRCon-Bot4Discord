@@ -1,367 +1,304 @@
 <div align="center">
 
-  <img src="https://github.com/FwSchultz/assets/blob/main/bots/FwS-Bots/Bot.png" alt="logo" width="200" height="auto" />
-  <h1>**A lightweight Discord bot to manage and control a Hell Let Loose server via CRCON.**</h1>
-  
-<!-- Badges -->
+  <img src="https://github.com/FwSchultz/assets/blob/main/bots/FwS-Bots/Bot.png" alt="Mini CRCON Bot Logo" width="200" height="auto" />
+  <h1>Mini CRCON Bot for Discord</h1>
+
+  <p>Discord-Steuerungsoberfläche für Hell-Let-Loose-Server über die CRCON-API.</p>
+
 <p>
-  <a href="https://github.com/FwSchultz/Mini-CRCon-Bot4Discord/graphs/contributors">
-    <img src="https://img.shields.io/github/contributors/FwSchultz/Mini-CRCon-Bot4Discord" alt="contributors" />
-  </a>
-  <a href="">
-    <img src="https://img.shields.io/github/last-commit/FwSchultz/Mini-CRCon-Bot4Discord" alt="last update" />
-  </a>
-  <a href="https://github.com/FwSchultz/Mini-CRCon-Bot4Discord/network/members">
-    <img src="https://img.shields.io/github/forks/FwSchultz/Mini-CRCon-Bot4Discord" alt="forks" />
-  </a>
-  <a href="https://github.com/FwSchultz/Mini-CRCon-Bot4Discord/stargazers">
-    <img src="https://img.shields.io/github/stars/FwSchultz/Mini-CRCon-Bot4Discord" alt="stars" />
-  </a>
-  <a href="https://github.com/FwSchultz/Mini-CRCon-Bot4Discord/issues/">
-    <img src="https://img.shields.io/github/issues/FwSchultz/Mini-CRCon-Bot4Discord" alt="open issues" />
-  </a>
-  <a href="https://github.com/FwSchultz/Mini-CRCon-Bot4Discord/blob/master/LICENSE">
-    <img src="https://img.shields.io/github/license/FwSchultz/Mini-CRCon-Bot4Discord.svg" alt="license" />
-  </a>
+  <a href="https://github.com/FwSchultz/Mini-CRCon-Bot4Discord/graphs/contributors"><img src="https://img.shields.io/github/contributors/FwSchultz/Mini-CRCon-Bot4Discord" alt="contributors" /></a>
+  <a href="https://github.com/FwSchultz/Mini-CRCon-Bot4Discord/commits/main"><img src="https://img.shields.io/github/last-commit/FwSchultz/Mini-CRCon-Bot4Discord" alt="last update" /></a>
+  <a href="https://github.com/FwSchultz/Mini-CRCon-Bot4Discord/network/members"><img src="https://img.shields.io/github/forks/FwSchultz/Mini-CRCon-Bot4Discord" alt="forks" /></a>
+  <a href="https://github.com/FwSchultz/Mini-CRCon-Bot4Discord/stargazers"><img src="https://img.shields.io/github/stars/FwSchultz/Mini-CRCon-Bot4Discord" alt="stars" /></a>
+  <a href="https://github.com/FwSchultz/Mini-CRCon-Bot4Discord/issues"><img src="https://img.shields.io/github/issues/FwSchultz/Mini-CRCon-Bot4Discord" alt="issues" /></a>
+  <a href="https://github.com/FwSchultz/Mini-CRCon-Bot4Discord/blob/main/LICENSE"><img src="https://img.shields.io/github/license/FwSchultz/Mini-CRCon-Bot4Discord.svg" alt="license" /></a>
 </p>
-   
+
 <h4>
-    <a href="https://github.com/FwSchultz/Mini-CRCon-Bot4Discord">Documentation</a>
+  <a href="https://github.com/FwSchultz/Mini-CRCon-Bot4Discord">Documentation</a>
   <span> · </span>
-    <a href="https://github.com/FwSchultz/Mini-CRCon-Bot4Discord/issues/">Report Bug</a>
+  <a href="https://github.com/FwSchultz/Mini-CRCon-Bot4Discord/issues">Report Bug</a>
   <span> · </span>
-    <a href="https://github.com/FwSchultz/Mini-CRCon-Bot4Discord/issues/">Request Feature</a>
-  </h4>
-
-[German version](readme_DE.md)
-
+  <a href="https://github.com/FwSchultz/Mini-CRCon-Bot4Discord/issues">Request Feature</a>
+</h4>
 </div>
+
 <br />
 
-## 📑 Table of Contents
-- [About the Project](#-about-the-project)  
-- [Tech Stack](#-tech-stack)  
-- [Environment Variables & Tokens](#-environment-variables--tokens)  
-- [Requirements](#-requirements)  
-- [Getting Started](#-getting-started)  
-  - [Create Discord Bot and Set Permissions](#1-create-discord-bot-and-set-permissions)  
-  - [Set up CRCON API Token and Permissions](#2-setup-crcon-api-token-and-permissions)  
-  - [Clone Repository](#3-clone-repository)  
-  - [Copy Templates (`dev.*`) to Active Files](#4-copy-templates-dev-to-active-files)  
-  - [Edit Configuration Files](#5-edit-configuration-files)  
-  - [Install Dependencies](#6-install-dependencies)  
-  - [Run the Bot](#7-run-the-bot)  
-- [Virtual Environments (Optional)](#-virtual-environments-optional)  
-- [Usage](#-usage)  
-- [Commands](#-commands)  
-- [Roadmap](#-roadmap)  
-- [License](#-license)  
-- [Contact](#-contact)  
+# Inhaltsverzeichnis
+
+- [Über das Projekt](#über-das-projekt)
+- [Funktionen](#funktionen)
+- [Technik](#technik)
+- [Projektstruktur](#projektstruktur)
+- [Voraussetzungen](#voraussetzungen)
+- [Konfiguration](#konfiguration)
+- [Installation mit Docker Compose](#installation-mit-docker-compose)
+- [Lokale Installation](#lokale-installation)
+- [Discord-Befehle](#discord-befehle)
+- [Berechtigungen](#berechtigungen)
+- [CRCON-Berechtigungen](#crcon-berechtigungen)
+- [Sicherheit](#sicherheit)
+- [Roadmap](#roadmap)
+- [Lizenz](#lizenz)
+- [Kontakt](#kontakt)
 
 ---
 
-## 🚀 About the Project
-The **Mini-CRCON Bot** provides an admin panel in Discord to control a Hell Let Loose server via the CRCON API.
+## Über das Projekt
 
-**Goals:**
-- Simple user interface for admins and moderators  
-- Secure, reliable API communication with retries and error handling  
-- Clean, minimalist control panel in the Discord channel  
+Der **Mini CRCON Bot for Discord** stellt ein dauerhaftes Steuerungs-Panel in Discord bereit. Berechtigte Administratoren können darüber Spieler benachrichtigen, Karten wechseln, Spieler kicken, bestrafen oder unmittelbar das Team wechseln lassen.
+
+Die Kommunikation erfolgt über die HTTP-API einer bestehenden CRCON-Installation. Der Bot ersetzt CRCON nicht, sondern bietet eine kompakte Discord-Oberfläche für häufig benötigte Administrationsaufgaben.
 
 ---
 
-## 🛠 Tech Stack
-- **Python** 3.10+  
-- **discord.py** (buttons, modals, selects, persistent views)  
-- **requests** (HTTP client with retries)  
-- **PyYAML** (`config.yml` configuration)  
-- **python-dotenv** (`.env` secrets management)  
+## Funktionen
+
+- Persistentes Discord-Steuerungs-Panel
+- Nachricht an einzelne Spieler
+- Nachricht an Allies, Axis oder alle Spieler
+- Spielerauswahl mit Pagination
+- Kartenwechsel anhand einer konfigurierbaren `maps.json`
+- Spieler kicken, bestrafen und sofort ins andere Team verschieben
+- API-Diagnose mit Erreichbarkeit, Version und Spielerzahl
+- Rollen-, Benutzer-, Owner- und Administrator-Prüfung
+- Wiederholungsversuche und Timeouts bei API-Aufrufen
+- Rotierende Logdateien
+- Optionales Panel-Banner
+- Docker- und Docker-Compose-Unterstützung
 
 ---
 
-## 🔑 Environment Variables & Tokens
+## Technik
 
-All secrets are stored in `.env`:
+- **Python:** 3.12
+- **Discord:** discord.py 2.4+
+- **HTTP:** requests mit Retry-Strategie
+- **Konfiguration:** YAML und Umgebungsvariablen
+- **Deployment:** Docker und Docker Compose
+- **Zielsystem:** Hell Let Loose CRCON API
 
-```env
-# Discord
-DISCORD_TOKEN=YOUR_DISCORD_BOT_TOKEN
+---
 
-# CRCON / API
-API_BASE_URL=https://crcon.example.com
-API_TOKEN=YOUR_CRCON_API_TOKEN
+## Projektstruktur
 
-# Logging
-LOG_LEVEL=INFO
+```text
+Mini-CRCon-Bot4Discord/
+├── assets/
+├── cogs/
+│   ├── diagnostics.py
+│   └── messaging.py
+├── utils/
+│   └── permissions.py
+├── views/
+│   └── message.py
+├── api_client.py
+├── bot.py
+├── logging_setup.py
+├── maps.json
+├── .env.example
+├── config.example.yml
+├── Dockerfile
+├── docker-compose.yml
+└── requirements.txt
 ```
 
 ---
 
-## 📦 Requirements
+## Voraussetzungen
 
-You need Python 3.10 or higher. For Linux beginners (Ubuntu/Debian-based systems):
+- Discord-Bot-Anwendung
+- erreichbare CRCON-Installation mit API-Zugang
+- Docker und Docker Compose, alternativ Python 3.12
 
-```bash
-sudo apt update && sudo apt install python3 python3-pip -y
-```
+Der Discord-Bot benötigt typischerweise:
 
-Check the Python version with:
-
-```bash
-python3 --version
-```
-
-If the version is < 3.10, see [Virtual Environments (Optional)](#-virtual-environments-optional) for installing newer versions.
+- Kanäle ansehen
+- Nachrichten senden
+- Links einbetten
+- Dateien anhängen
+- Nachrichtenverlauf lesen
+- Nachrichten verwalten, falls der Steuerungskanal beim Start bereinigt werden soll
 
 ---
 
-## ⚙️ Getting Started
+## Konfiguration
 
-This guide targets Linux beginners. We’ll install the script without a virtual environment (venv) to keep it simple — venv is optional. **Important:** Without Discord and CRCON tokens and correct permissions, the bot will not work. You must adjust `.env` and `config.yml`.
-
-### 1) Create Discord Bot and Set Permissions
-- Go to the [Discord Developer Portal](https://discord.com/developers/applications).
-- Create a **NEW APPLICATION**, add a **Bot**.
-- Enable **Message Content Intent** (under Bot > Privileged Gateway Intents).
-- Reset the token via the **Reset Token** button (blue button).
-- Copy the **Bot Token** and store it securely — you need it for `.env`.
-- Invite the bot to your server: Use the **Installation** menu (left sidebar) then choose Guild Install under Scopes `bot` and `applications.commands`.
-- Choose these **Permissions** (without them the bot won’t work correctly):
-  - View Channels  
-  - Send Messages  
-  - Embed Links  
-  - Attach Files (for the bot’s banner) 
-  - Read Message History  
-  - Manage Messages (so the bot can clean the channel; otherwise it only deletes its own messages)  
-
-### 2) [Setup CRCON API Token](https://github.com/MarechJ/hll_rcon_tool/wiki/Developer-Guides-%E2%80%90-CRCON-API) and Permissions
-- Create an API token in your CRCON instance (DJANGO) with at least these permissions (otherwise features will be missing):
-  - `get_players` → api | rcon user | **Can view get_players endpoint** (name, steam ID, VIP status and sessions) for all connected players
-  - `get_detailed_players` → api | rcon user | **Can view get_detailed_players endpoint**
-  - `message_player` → api | rcon user | **Can message players**
-  - `set_map` → api | rcon user | **Can change the current map**
-  - `kick` → api | rcon user | **Can kick players**
-  - `punish` → api | rcon user | **Can punish players**
-  - `switch_player_now` → api | rcon user | **Can immediately switch players**
-- Copy the token and the base URL (e.g. https://crcon.example.com) — you need both for `.env`.
-
-### 3) Clone Repository
-Open a terminal and clone the repo:
+Repository klonen:
 
 ```bash
 git clone https://github.com/FwSchultz/Mini-CRCon-Bot4Discord.git
 cd Mini-CRCon-Bot4Discord
 ```
 
-If git is missing: `sudo apt install git -y`.
-
-### 4) Copy Templates (`dev.*`) to Active Files
-Copy the templates:
+Vorlagen kopieren:
 
 ```bash
-cp dev.env .env
-cp dev.config.yml config.yml
+cp .env.example .env
+cp config.example.yml config.yml
 ```
 
-### 5) Edit Configuration Files
-- Open `.env` with an editor (e.g. `nano .env` or any text editor):
-  - Replace `YOUR_DISCORD_BOT_TOKEN` with your bot token.
-  - Replace `https://crcon.example.com` and `YOUR_CRCON_API_TOKEN` with your values.
-- Open `config.yml` (e.g. `nano config.yml` or a text editor) and adjust as needed:
+Windows PowerShell:
 
-<details>
-<summary>Show config.yml</summary>
+```powershell
+Copy-Item .env.example .env
+Copy-Item config.example.yml config.yml
+```
+
+`.env` anpassen:
+
+```env
+DISCORD_TOKEN=DEIN_DISCORD_BOT_TOKEN
+API_BASE_URL=https://crcon.example.com
+API_TOKEN=DEIN_CRCON_API_TOKEN
+CONFIG_PATH=config.yml
+LOG_LEVEL=INFO
+```
+
+In `config.yml` mindestens Steuerungskanal und berechtigte Rollen eintragen:
 
 ```yaml
 app:
-  # Ob die Buttons permanent registriert werden sollen (empfohlen)
-  use_persistent_views: true
-  # Kanal, in dem das Steuerungs-Panel stehen soll
-  control_channel_id: 1223342343542346554
-  # Log-Channel-ID (optional)
-  log_channel_id: 1234567768677767667
+  control_channel_id: 123456789012345678
+  log_channel_id: 0
+  purge_control_channel_on_start: true
 
 permissions:
-  # Nur wenn ihr explizit KEINE Admin-Permission akzeptieren wollt:
   allow_admin_perm: false
-  # Server-Owner darf immer? (kannst du auch auf false setzen)
   allow_guild_owner: true
-
-  # Erlaubte Rollen (IDs!) – hier kommt DEINE Admin-Rolle rein
   role_ids:
-    - 1391234568304640023
-
-  # Optional: Whitelist einzelner User (IDs)
+    - 123456789012345678
   user_ids: []
-  # Debug-Ausgabe im Log aktivieren (optional)
-  debug: true
-
-ui:
-  # Text des Hauptpanels
-  panel_title: "Steuerungs-Panel"
-  panel_intro: "Wähle eine Aktion. Missbrauch führt zum Entzug von Rechten."
-  panel_color: 0x2b2d31
-
-  # Optionales Theme (Farben als Hex oder "0x…")
-  theme:
-    primary: "0x2B2D31"   # dunkles Grau
-    accent:  "0x5865F2"   # Discord Blurple
-    success: "0x57F287"   # Grün
-    danger:  "0xED4245"   # Rot
-
-  icons:
-    panel_message: "💬"
-    panel_map: "🗺️"
-    panel_kick: "🔨"
-    panel_punish: "⚠️"
-    panel_switch: "🔁"
-
-    msg_one: "👤"
-    msg_allies: "🔵"
-    msg_axis: "🔴"
-    msg_all: "📣"
-    back: "↩️"
-
-  banner:
-    enabled: true
-    # Lokales Bild (relativ zum Projektordner)
-    path: "assets/panel_banner.png"
-    # Alternativ per URL:
-    # url: "https://example.com/dein-banner.png"
-
-api:
-  debug: true
-  timeout_seconds: 20
-  retries:
-    total: 2
-    backoff_factor: 0.3
-
-messaging:
-  enabled: true
-  # Sicherheits-Cooldown in Millisekunden zwischen Einzel-PMs
-  per_player_delay_ms: 120
-  # Pagination ab X Spielern
-  page_size: 25
-  # Auto-Löschung von Bestätigungen (Sekunden)
-  ephemeral_ttl_seconds: 20
-  buttons:
-    single: true
-    allies: true
-    axis: true
-    all: true
-
-map_switch:
-  enabled: true
-  button_label: "Map wechseln"
-  ephemeral: false
-  ttl_seconds: 15
-
-kick_player:
-  enable: true
-  require_reason: true
-  default_reason: "Regelverstoß"
-
-punish_player:
-  enable: true
-  default_by: "Admin"
-
-switch_player:
-  enable: true
-```
-</details>
-
-### 6) Install Dependencies
-Install Python packages globally (without venv):
-
-```bash
-pip3 install -r requirements.txt
 ```
 
-If pip is missing: `sudo apt install python3-pip -y`. Ensure `discord.py >= 2.2` is installed.
-
-### 7) Run the Bot
-Start the bot:
-
-```bash
-python3 bot.py
-```
-
-The bot deletes non-pinned messages in the control channel and posts the panel. If errors occur, set `LOG_LEVEL=DEBUG` in `.env` for more info.
-
-### (Optional) Run as a SystemD Service
-For continuous operation create `/etc/systemd/system/mini-crcon-bot.service`:
-
-```ini
-[Unit]
-Description=Mini-CRCON Discord Bot
-After=network-online.target
-OnFailure=unit-status-mail@%n.service
-
-[Service]
-User=dein-benutzer  # Nicht root, erstelle einen dedizierten User
-Type=simple
-Restart=always
-RestartSec=3
-WorkingDirectory=/pfad/zum/repo/Mini-CRCon-Bot4Discord
-ExecStart=/usr/bin/python3 bot.py
-Restart=always
-
-[Install]
-WantedBy=multi-user.target
-```
-
-Run: `sudo systemctl daemon-reload && sudo systemctl start mini-crcon-bot`.
+Alle IDs in der Vorlage sind absichtlich leer oder `0`.
 
 ---
 
-## 🔁 Virtual Environments (Optional)
-> [!IMPORTANT]
-> Virtual environments (venv) prevent conflicts between Python packages and are recommended for advanced users. Here’s a detailed guide to installing and using Python 3.10, 3.11, or 3.12 with venv.
-
-1. Install venv: `sudo apt install python3-venv -y`.
-2. Create and activate:
+## Installation mit Docker Compose
 
 ```bash
-python3 -m venv venv
-source venv/bin/activate
+docker compose up -d --build
 ```
 
-3. Install dependencies: `pip install -r requirements.txt`.
-4. Start: `python bot.py`.
-5. Deactivate: `deactivate`.
-
-For other Python versions (e.g. 3.12):
+Status und Logs:
 
 ```bash
-sudo apt install -y software-properties-common
-sudo add-apt-repository -y ppa:deadsnakes/ppa
-sudo apt update
-sudo apt install -y python3.10 python3.10-venv python3.10-distutils                    python3.11 python3.11-venv python3.11-distutils                    python3.12 python3.12-venv python3.12-distutils
-python3.12 -m venv venv
-source venv/bin/activate
+docker compose ps
+docker compose logs -f mini-crcon-bot
+```
+
+Stoppen:
+
+```bash
+docker compose down
+```
+
+Die Logdateien bleiben im lokalen Ordner `logs/` erhalten.
+
+---
+
+## Lokale Installation
+
+```bash
+python -m venv .venv
+```
+
+Linux/macOS:
+
+```bash
+source .venv/bin/activate
+```
+
+Windows PowerShell:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+```bash
 pip install -r requirements.txt
+python bot.py
 ```
 
 ---
 
-## 💡 Usage
-The bot runs in Discord and is controlled via buttons/menus (Kick, Punish, Map Switch, Switch Player and Messaging).
+## Discord-Befehle
+
+| Befehl | Funktion |
+|---|---|
+| `/panel` | Steuerungs-Panel erneut senden |
+| `/diag` | geschützte CRCON-API-Diagnose anzeigen |
+
+Die eigentlichen Serveraktionen werden über Buttons, Auswahllisten und Dialoge im Panel ausgeführt.
 
 ---
 
-## 🗺 Roadmap
-- [x] Player messaging system  
-- [x] Optional: Extend panel with moderation actions (Kick, Punish, Map Switch, Switch Player)
-- [ ] Multi-language support (`translations.json`)  
+## Berechtigungen
+
+Zugriff erhält ein Benutzer, wenn mindestens eine aktivierte Regel zutrifft:
+
+- explizite Benutzer-ID
+- Discord-Serverbesitzer
+- Discord-Berechtigung `Administrator`
+- eine konfigurierte Rollen-ID
+
+Für eine kontrollierte Einrichtung empfiehlt sich `allow_admin_perm: false` und die Freigabe über konkrete Rollen.
 
 ---
 
-## License
-This project is licensed under the **MIT License**.
+## CRCON-Berechtigungen
+
+Der API-Token benötigt abhängig von den aktivierten Funktionen Zugriff auf:
+
+- `get_players`
+- `get_detailed_players`
+- `message_player`
+- `set_map`
+- `kick`
+- `punish`
+- `switch_player_now`
+
+Vergib nur die tatsächlich benötigten Rechte.
 
 ---
 
-## Contact
-Created by **Fw.Schultz**. For questions or suggestions, please create an issue on GitHub.
+## Sicherheit
 
-📧 **Contact:** [Discord](https://discord.com/users/275297833970565121)
+- `.env` und `config.yml` werden nicht versioniert.
+- Tokens niemals in Screenshots, ZIP-Dateien oder Issues veröffentlichen.
+- Das Diagnosekommando ist auf berechtigte Benutzer beschränkt.
+- Der Steuerungskanal wird nur bereinigt, wenn `purge_control_channel_on_start` aktiviert ist.
+- Bei Discord-Reconnects wird die Initialisierung nicht mehrfach ausgeführt.
+- Administratorrechte nur vergeben, wenn einzelne Discord-Rechte nicht ausreichen.
+
+---
+
+## Roadmap
+
+- [x] Persistentes Bedienpanel
+- [x] Spieler- und Seitennachrichten
+- [x] Kartenwechsel
+- [x] Kick, Punish und Teamwechsel
+- [x] Docker-Unterstützung
+- [ ] Audit-Log für ausgeführte Adminaktionen
+- [ ] Tests für API-Client und Rechteprüfung
+- [ ] optionale Bestätigungsdialoge für kritische Aktionen
+
+---
+
+## Lizenz
+
+Veröffentlicht unter der MIT-Lizenz. Weitere Informationen stehen in [LICENSE](LICENSE).
+
+---
+
+## Kontakt
+
+**Fw.Schultz**
+
+- GitHub: [@FwSchultz](https://github.com/FwSchultz)
+- Website: [fwschultz.de](https://fwschultz.de)
+- LinkedIn: [Oliver Blume](https://www.linkedin.com/in/oliver-blume)
+- Fehler und Vorschläge: [GitHub Issues](https://github.com/FwSchultz/Mini-CRCon-Bot4Discord/issues)

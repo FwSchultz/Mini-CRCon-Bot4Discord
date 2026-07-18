@@ -1,46 +1,16 @@
-# 🔒 Umgebungsvariablen
 .env
 config.yml
-
-# 🗃 SQLite-Datenbank
-*.db
-*.sqlite3
-
-# 🔍 Log-Dateien
-*.log
 logs/
 *.log
-
-# 🔒 Backup-Dateien
-.Backup/
-
-# 🔥 Python Cache & Build Files
 __pycache__/
 *.py[cod]
-*.so
-*.pyo
-*.pyd
-
-# 📦 Virtuelle Umgebungen
+.venv/
 venv/
 env/
-*.venv
-
-# 🗑 Paket- und Abhängigkeitsverwaltung
 *.egg-info/
-pip-log.txt
-pip-delete-this-directory.txt
-
-# 📄 Exportierte VIP-Listen
-vip_list.txt
-vip_backup.txt
-
-# 🖼 IDE- und Editor-Spezifische Dateien
+.pytest_cache/
+.mypy_cache/
 .vscode/
 .idea/
-*.swp
-*.swo
-
-# 📜 Sonstige generierte oder temporäre Dateien
 .DS_Store
 Thumbs.db

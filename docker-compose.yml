@@ -1,0 +1,10 @@
+services:
+  mini-crcon-bot:
+    build: .
+    container_name: mini-crcon-bot
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ./config.yml:/app/config.yml:ro
+      - ./logs:/app/logs
